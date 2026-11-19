@@ -1,0 +1,23 @@
+name: Build FunkyVox V6-9 (Windows VST3)
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configurar
+        run: cmake -B build -DCMAKE_BUILD_TYPE=Release
+
+      - name: Compilar VST3
+        run: cmake --build build --config Release --target FunkVox_VST3
+
+      - name: Subir plugin compilado
+        uses: actions/upload-artifact@v4
+        with:
+          name: FunkyVox-V6-9-VST3-Windows
+          path: build/FunkVox_artefacts/Release/VST3/*.vst3
